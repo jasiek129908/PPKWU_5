@@ -19,8 +19,6 @@ public class Controller {
 
     @GetMapping("/card/{profession}")
     public void getBusinessCard(@PathVariable String profession) {
-//        String s = callExternalStringUtilityApi(EXTERNAL_API + "/" + profession);
-//        System.out.println(s);
         WebClient webClient = getWebClientBuilder();
         String out = webClient
                 .get()
@@ -28,7 +26,7 @@ public class Controller {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        System.out.println(out);
+
 
     }
 
