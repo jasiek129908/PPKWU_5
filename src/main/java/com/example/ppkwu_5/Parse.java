@@ -24,10 +24,32 @@ public class Parse {
         Document doc = Jsoup.connect(profession).get();
         Elements select = doc.select("[type=\"application/ld+json\"]");
 
-        JSONObject jsonParentObject = new JSONObject();
-        for (Element li : select) {
-            System.out.println(li);
-            System.out.println("\n\n");
+        String name = "";
+        String telephone = "";
+        String email = "";
+        String website = "";
+
+        String street = "";
+        String  addressLocality= "";
+        String  postalCode= "";
+        String  country= "";
+
+        for (Element el : select) {
+            JSONObject jsonObject = new JSONObject(el.data());
+            System.out.println(jsonObject);
+            name = jsonObject.getString("name");
+            telephone = jsonObject.getString("telephone");
+            email = jsonObject.getString("email");
+            website = jsonObject.getString("sameAs");
+
+            JSONObject jsonObject2= jsonObject.getJSONObject("address");
+            street = jsonObject2.getString("streetAddress");
+            addressLocality = jsonObject2.getString("addressLocality");
+            postalCode = jsonObject2.getString("postalCode");
+            country = jsonObject2.getString("addressCountry");
+
+            String formatedString = String.format(" ")
         }
     }
+
 }
