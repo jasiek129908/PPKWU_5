@@ -53,6 +53,8 @@ public class Parse {
             }catch (JSONException e){
                 System.out.println(e);
             }
+            String paramToApi = String.format("name=%s&telephone=%s&email=%s&website=%s&street=%s&postalCode=%s&addressLocality=%s",
+                    name, telephone, email, website, street, postalCode, addressLocality);
 
             htmlResponse += String.format("<div>\n" +
                     "    <p>%s</p>\n" +
@@ -66,8 +68,9 @@ public class Parse {
                     "    <p>%s</p>\n" +
                     "    <p>%s</p>\n" +
                     "    <p>%s</p>\n" +
+                    "    <a href=\"/api/card/?%s>\"><button>wygeneruj vCard</button></a>\n"+
                     "</div><br>",
-                    name, image, telephone, email, website, street, postalCode, addressLocality, country);
+                    name, image, telephone, email, website, street, postalCode, addressLocality, country, paramToApi);
         }
         htmlResponse += "</body></html>";
         return htmlResponse;
