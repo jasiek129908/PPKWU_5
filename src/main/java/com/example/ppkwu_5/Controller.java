@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api")
 public class Controller {
@@ -14,23 +16,11 @@ public class Controller {
 
     @GetMapping("/card/{profession}")
     public void getBusinessCard(@PathVariable String profession) {
-        WebClient webClient = getWebClientBuilder();
-        String out = webClient
-                .get()
-                .uri(EXTERNAL_API + "/" + profession)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
-
-    }
-
-    public WebClient getWebClientBuilder() {
-        return WebClient.builder().exchangeStrategies(ExchangeStrategies.builder()
-                .codecs(configurer -> configurer
-                        .defaultCodecs()
-                        .maxInMemorySize(16 * 1024 * 1024))
-                .build())
-                .build();
+        try {
+            Parse.parseResponse(EXTERNAL_API + "/" + profession);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
