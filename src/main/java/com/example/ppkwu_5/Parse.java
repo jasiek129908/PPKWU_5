@@ -1,6 +1,7 @@
 package com.example.ppkwu_5;
 
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,7 +12,7 @@ import java.io.IOException;
 
 public class Parse {
 
-    public static void parseResponse(String profession) throws IOException {
+    public static String parseResponse(String profession) throws IOException {
         String htmlResponse = "<!doctype html>\n" +
                 "<html>\n" +
                 "<head>\n" +
@@ -28,28 +29,48 @@ public class Parse {
         String telephone = "";
         String email = "";
         String website = "";
+        String image = "";
 
         String street = "";
-        String  addressLocality= "";
-        String  postalCode= "";
-        String  country= "";
+        String addressLocality = "";
+        String postalCode = "";
+        String country = "";
 
         for (Element el : select) {
             JSONObject jsonObject = new JSONObject(el.data());
-            System.out.println(jsonObject);
-            name = jsonObject.getString("name");
-            telephone = jsonObject.getString("telephone");
-            email = jsonObject.getString("email");
-            website = jsonObject.getString("sameAs");
+            try {
+                name = jsonObject.getString("name");
+                telephone = jsonObject.getString("telephone");
+                email = jsonObject.getString("email");
+                website = jsonObject.getString("sameAs");
+                image = jsonObject.getString("image");
 
-            JSONObject jsonObject2= jsonObject.getJSONObject("address");
-            street = jsonObject2.getString("streetAddress");
-            addressLocality = jsonObject2.getString("addressLocality");
-            postalCode = jsonObject2.getString("postalCode");
-            country = jsonObject2.getString("addressCountry");
+                JSONObject jsonObject2 = jsonObject.getJSONObject("address");
+                street = jsonObject2.getString("streetAddress");
+                addressLocality = jsonObject2.getString("addressLocality");
+                postalCode = jsonObject2.getString("postalCode");
+                country = jsonObject2.getString("addressCountry");
+            }catch (JSONException e){
+                System.out.println(e);
+            }
 
-            String formatedString = String.format(" ")
+            htmlResponse += String.format("<div>\n" +
+                    "    <p>%s</p>\n" +
+                    "    <p><img src=\"%s\" alt=\"componay image\"></img>\n" +
+                    "    <p>telephone: %s</p>\n" +
+                    "    <p>Email: %s</p>\n" +
+                    "    <p>Website: %s</p>\n" +
+                    "  \n" +
+                    "    <p>Address</p>" +
+                    "    <p>%s</p>\n" +
+                    "    <p>%s</p>\n" +
+                    "    <p>%s</p>\n" +
+                    "    <p>%s</p>\n" +
+                    "</div><br>",
+                    name, image, telephone, email, website, street, postalCode, addressLocality, country);
         }
+        htmlResponse += "</body></html>";
+        return htmlResponse;
     }
 
 }

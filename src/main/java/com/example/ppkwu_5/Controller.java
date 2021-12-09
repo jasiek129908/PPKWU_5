@@ -15,12 +15,14 @@ public class Controller {
     public static final String EXTERNAL_API = "https://panoramafirm.pl/";
 
     @GetMapping("/card/{profession}")
-    public void getBusinessCard(@PathVariable String profession) {
+    public String getBusinessCard(@PathVariable String profession) {
+        String response = null;
         try {
-            Parse.parseResponse(EXTERNAL_API + "/" + profession);
+            response = Parse.parseResponse(EXTERNAL_API + "/" + profession);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return response;
     }
 }
 
