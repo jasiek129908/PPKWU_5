@@ -21,7 +21,7 @@ public class Controller {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        System.out.println(out);
+
     }
 
     public WebClient getWebClientBuilder() {
