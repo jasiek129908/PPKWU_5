@@ -1,0 +1,9 @@
+BEGIN:VCARD
+VERSION:4.0
+PRODID:ez-vcard 0.11.3
+FN:Peranek sp. z o.o. sp.k
+TEL:22 8533432
+EMAIL:biuro@peranek.pl
+URL:http://peranek.pl
+ADR:;;ul. Ksawerów 21;;Warszawa>;02-656;
+END:VCARD
